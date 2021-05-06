@@ -20,7 +20,7 @@ export class CalculatorSocket {
     this.socket.on("connection", (socket: Socket) => {
       console.log("Socket connection established.");
       socket.on("input", (input: any) => this.onInput(input, socket));
-      socket.on("connect_failed", () => this.onConnectionFailed(socket));
+      socket.on("connect_failed", () => this.onConnectionFailed());
       socket.on("disconnect", () => this.onDisconnect(socket));
       socket.emit("refreshed_list", this.dataStore.get());
     });
@@ -36,10 +36,9 @@ export class CalculatorSocket {
     socket.emit("disconnected", message);
   }
 
-  private onConnectionFailed(socket: Socket): void {
+  private onConnectionFailed(): void {
     const message = "Sorry, there seems to be an issue with the connection!";
     console.log(message);
-    socket.emit("connection_failed", message);
   }
 
   private store(input: string, socket: Socket): void {
